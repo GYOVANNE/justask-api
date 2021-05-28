@@ -24,6 +24,11 @@ Route.group(() => {
 
 }).middleware('jwt')
 
+Route.get("/", function ({response})
+{
+  return response.status(200).json({message:'Bem vindo À Api do JusTask!'})
+})
+
 Route.any('*', function ({response})
 {
   return response.status(404).json({message:'Rota não encontrada!'})
