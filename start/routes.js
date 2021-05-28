@@ -16,6 +16,15 @@
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use('Route')
 
-Route.get('/', () => {
-  return { greeting: 'Hello world in JSON' }
+Route.post("/login", "UserController.login").as('login.login')
+Route.post("/register", "UserController.store").as('register.store')
+Route.post("/refresh", "UserController.refreshToken").as('refresh.refreshToken')
+
+Route.group(() => {
+
+}).middleware('jwt')
+
+Route.any('*', function ({response})
+{
+  return response.status(404).json({message:'Rota não encontrada!'})
 })
