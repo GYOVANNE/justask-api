@@ -20,6 +20,9 @@ Route.post("/login", "UserController.login").as('login.login')
 Route.post("/register", "UserController.store").as('register.store')
 Route.post("/refresh", "UserController.refreshToken").as('refresh.refreshToken')
 
+
+Route.get("/users", "UserController.index").as('users.index')
+
 Route.group(() => {
 
 }).middleware('jwt')

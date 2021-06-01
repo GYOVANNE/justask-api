@@ -58,6 +58,23 @@ class UserController {
      * @param {Request} ctx.request
      * @param {Response} ctx.response
      */
+     async index ({ response}) {
+        try{
+            const users = await User.all()
+            return response.status(201).json(users)
+        }catch(e){
+            return response.status(400).json('Ops, ocorreu um erro! ' + e)
+        }
+    }
+
+    /**
+     * Create/save a new user.
+     * POST users
+     *
+     * @param {object} ctx
+     * @param {Request} ctx.request
+     * @param {Response} ctx.response
+     */
     async store ({ request, response}) {
         try{
             const data = request.all();
