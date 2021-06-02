@@ -7,6 +7,10 @@ class ScheduleSchema extends Schema {
   up () {
     this.create('schedules', (table) => {
       table.increments()
+      table.string('forum').notNullable()
+      table.string('services').notNullable()
+      table.date('date')
+      table.integer('hour')
       table.timestamps()
     })
   }
