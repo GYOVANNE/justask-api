@@ -22,6 +22,15 @@ Route.post("/refresh", "UserController.refreshToken").as('refresh.refreshToken')
 
 
 Route.get("/users", "UserController.index").as('users.index')
+Route.put("/user:id", "UserController.update").as('user.update')
+Route.delete("/user:id", "UserController.destroy").as('user.destroy')
+
+Route.get("/schedule", "ScheduleController.index").as('schedule.index')
+Route.post("/schedule", "ScheduleController.store").as('schedule.store')
+Route.put("/schedule:id", "ScheduleController.update").as('schedule.update')
+Route.delete("/schedule:id", "ScheduleController.destroy").as('schedule.destroy')
+
+Route.post("/schedule-available", "ScheduleController.scheduleAvailable").as('schedule-available.scheduleAvailable')
 
 Route.group(() => {
 

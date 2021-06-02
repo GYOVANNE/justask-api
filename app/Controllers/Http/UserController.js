@@ -61,7 +61,7 @@ class UserController {
      async index ({ response}) {
         try{
             const users = await User.all()
-            return response.status(201).json(users)
+            return response.status(200).json(users)
         }catch(e){
             return response.status(400).json('Ops, ocorreu um erro! ' + e)
         }
@@ -176,11 +176,6 @@ class UserController {
             return response.status(400).json('Ops, ocorreu um erro! ' + e)
         }
     }
-
-    // async info({auth, response})
-    // {
-    //     return new UserDetailService().info(auth, response)
-    // }
 
     /**
      * Delete a user with id.
