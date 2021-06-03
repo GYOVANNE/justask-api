@@ -18,6 +18,7 @@ class ScheduleController {
     services: 'required|max:250',
     date:     'required|date',
     hour:     'required',
+    user_id:  'required|integer'
     }
   }
 
@@ -27,6 +28,7 @@ class ScheduleController {
       'services.required':    'O Serviço é obrigatório!',
       'date.required':        'A Data é obrigatória!',
       'hour.required':        'A Hora é obrigatória!',
+      'user_id.required':     'O usuário é obrigatório!',
       'date.date':            'A Data é inválida!',
       }
   }
@@ -40,17 +42,16 @@ class ScheduleController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index ({ response, request }) {
+  async index ({ response, request, auth}) {
     try {
       const data = request.only(['date'])
-      console.log(data)
       const validation = await validate(data,{date:'date'}, {
           'date.date':      'A Data é inválida!'
         })
       if (validation.fails()) return response.status(422).json(validation.messages())
       let schedules = null
       if(data.date){
-        schedules = await Schedule.query().where('date',data.date).orderBy('hour').fetch()
+        schedules = await Schedule.query().where('date',data.date).where('user_id',auth.user.id).orderBy('hour').fetch()
       }else {
         schedules = await Schedule.query().orderBy('hour').fetch()
       }
@@ -96,9 +97,10 @@ class ScheduleController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async store ({ request, response }) {
+  async store ({ request, response, auth}) {
     try {
       const data = request.all();
+      data.user_id = auth.user.id
       const validation = await validate(data, this.rules, this.messages)
       if (validation.fails()) return response.status(422).json(validation.messages())
 
@@ -133,9 +135,10 @@ class ScheduleController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async update ({ params, request, response }) {
+  async update ({ params, request, response, auth}) {
     try {
       const data = request.all()
+      data.user_id = auth.user.id
       const schedule = await Schedule.find(params.id)
       schedule.merge(data)
       await schedule.save()
