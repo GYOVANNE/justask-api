@@ -53,7 +53,7 @@ class ScheduleController {
       if(data.date){
         schedules = await Schedule.query().where('date',data.date).where('user_id',auth.user.id).orderBy('hour').fetch()
       }else {
-        schedules = await Schedule.query().orderBy('hour').fetch()
+        schedules = await Schedule.query().where('user_id',auth.user.id).orderBy('hour').fetch()
       }
       return response.status(200).json(schedules)
     }catch(e){
